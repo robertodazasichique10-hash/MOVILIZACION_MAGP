@@ -149,20 +149,43 @@
         let currentUser = "";
         let db = JSON.parse(localStorage.getItem('db_comb_v2')) || { "0801550096": {clave:"Roberto_1971", rol:"Admin"} };
 
-        function acceder() {
-            const u = document.getElementById('u').value, p = document.getElementById('p').value;
-            if(db[u] && db[u].clave === p) {
-                currentUser = u;
-                document.getElementById('login').style.display='none';
-                document.getElementById('app').style.display='block';
-                document.getElementById('cedulaCond').value = u;
-                document.getElementById('status').innerText = "Personal MAGP: " + u;
-                document.getElementById('f_actual').valueAsDate = new Date();
-                if(u === "0801550096") document.getElementById('panelAdmin').style.display='block';
-                prepararFirmas();
-                generarQR("ESPERANDO DATOS...");
-            } else { alert("Acceso denegado."); }
-        }
+        function login() {
+    const u = document.getElementById('u').value.trim();
+    
+    // Lista Maestra de las 86 cédulas autorizadas
+    const autorizados = [
+        "0801671090", "1311423683", "1717178824", "0801587890", "0802872598",
+        "0802440495", "0914087879", "0800899536", "1304230343", "0801666371",
+        "0802320606", "0802159962", "0802259416", "0801461740", "0802860221",
+        "0800626897", "0801822552", "0804371664", "0804497238", "0803463587",
+        "0803290352", "0801587338", "0802547018", "0802881094", "1720782653",
+        "0802236471", "0801104977", "0804393635", "1003613526", "0801686361",
+        "0800673220", "0803138544", "1725888554", "0802577858", "0802772806",
+        "0926011941", "0802311357", "0802588582", "2300505803", "0802275099",
+        "0802774158", "1716820632", "0802605931", "0802507079", "0802328666",
+        "0801861006", "1309695276", "0850584517", "0801890039", "1304194283",
+        "0800858490", "0919043182", "0802138222", "1309587309", "1312187592",
+        "0801252073", "0802772129", "1311542516", "0801611880", "0803150259",
+        "0802132696", "1206243782", "0803805613", "0802679654", "1313572313",
+        "1311660714", "0801883026", "1712295904", "1726634544", "0803129865",
+        "0802521153", "0802130799", "0802834804", "0802836296", "0801534363",
+        "0804569093", "0802077651", "0804374346", "0941574428", "0801712282",
+        "0802018069", "0802503375", "0801758756", "0803235548", "0802944686"
+    ];
+
+    if (autorizados.includes(u)) {
+        currentUser = u;
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        document.getElementById('cedulaCond').value = u;
+        document.getElementById('status').innerText = "Personal MAGP: " + u;
+        document.getElementById('f_actual').valueAsDate = new Date();
+        prepararFirmas();
+        generarQR("ESPERANDO DATOS...");
+    } else { 
+        alert("Acceso denegado. Verifique su número de cédula."); 
+    }
+}
 
         function sumar() {
             let tGal = 0, tVal = 0;
@@ -265,3 +288,4 @@ function login() {
 </body>
 
 </html>
+
